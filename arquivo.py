@@ -51,28 +51,35 @@ def atualizar_ranking(vencedor, arquivo_ranking):
     except FileNotFoundError:
         ranking = []
 
-    #encontra o jogador no ranking atual
+    # Encontra o jogador no ranking atual
     jogador_encontrado = False
-    for i, linha in enumerate(ranking): #numera os ganhandores
-        nome, vitorias = linha.strip().split(',')
-        if nome == vencedor:
-            ranking[i] = f"{nome}-{int(vitorias) + 1}\n"
-            jogador_encontrado = True
-            break
+    for i, linha in enumerate(ranking):
+        if ',' in linha:
+            elementos = linha.strip().split(',')
+            if len(elementos) == 2:
+                nome, vitorias = elementos
+                if nome == vencedor:
+                    ranking[i] = f"{nome}-{int(vitorias) + 1}\n"
+                    jogador_encontrado = True
+                    break
 
-    #adicionar o jogador se ele nao estiver no ranking
+    # Adiciona o jogador se ele não estiver no ranking
     if not jogador_encontrado:
         ranking.append(f"{vencedor},1\n")
 
-    #ordenar os jogadores de quem tem mais vitorias pra quem tem menos
-    ranking.sort(
-        key=lambda x: int(x.strip().split(',')[1]),
-        reverse=True)  #indica que a orden será em ordem decrescente
-    
-    #escreve o ranking atualizado de volta no arquivo
+    if ranking:
+        # Ordena os jogadores de quem tem mais vitórias para quem tem menos
+        ranking.sort(
+            key=lambda x: int(x.strip().split(',')[1]) if len(x.strip().split(',')) == 2 else 0,
+            reverse=True)
+    else:
+        # Se o ranking estiver vazio, não há necessidade de ordenação
+        ranking = [f"{vencedor},1\n"]
+
+    # Escreve o ranking atualizado de volta no arquivo
     with open(arquivo_ranking, 'w') as arquivo:
         arquivo.writelines(ranking)
-
+        
 #função para exibir o ranking
 def exibir_ranking(arquivo_ranking):
     try:
@@ -80,13 +87,18 @@ def exibir_ranking(arquivo_ranking):
             ranking = arquivo.readlines()
         if ranking:
             print("Ranking de Jogadores:")
+            print()
             for i, linha in enumerate(ranking, start=1):
-                nome, vitorias = linha.strip().split(',')
-                print(f"{i}. {nome}: {vitorias} vitórias")
+                elementos = linha.strip().split(',')
+                if len(elementos) == 2:
+                    nome, vitorias = elementos
+                    print(f"{i}. {nome}: {vitorias} vitórias")
+                    print()
         else:
             print("O ranking está vazio.")
     except FileNotFoundError:
         print("O arquivo de ranking ainda não existe.")
+
 
 #função principal do jogo
 def jogar_bingo():
@@ -126,7 +138,9 @@ def jogar_bingo():
                     imprimir_cartela(cartela)
                     if jogador_venceu(cartela):
                         vencedor = nomes_jogadores[i-1]
+                        print()
                         print(f"Jogador {vencedor} venceu!")
+                        print()
                         atualizar_ranking(vencedor, arquivo_ranking) 
                         exibir_ranking(arquivo_ranking) 
                         return
