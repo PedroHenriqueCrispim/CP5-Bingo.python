@@ -1,6 +1,9 @@
+#Pedro Henrique Crispim RM:99005
+#Caique Chagas RM:551943
+
 import random #gerar numeros aleatorios
 
-#função para criar a cartela
+"""função para criar a cartela"""
 def criar_cartela():
     cartela = [[0] * 5 for _ in range(5)]  #inicia uma matriz 5x5 para a cartela
     colunas = [list(range(1, 16)), list(range(16, 31)), list(range(31, 46)), list(range(46, 61)), list(range(61, 76))]  #organiza a cartela de forma q as colunas fiquem do jeito q foi pedido
@@ -14,14 +17,14 @@ def criar_cartela():
 
     return cartela
 
-#função para imprimir uma cartela de Bingo em formato de matriz
+"""função para imprimir uma cartela de Bingo em formato de matriz"""
 def imprimir_cartela(cartela):
     for linha in cartela:
         for numero in linha:
             print(str(numero).rjust(2), end=' ')  #formata e imprime os números na cartela
         print()
 
-#função para marcar um número na cartela
+"""função para marcar um número na cartela"""
 def marcar_numero(cartela, numero):
     for i in range(5):
         for j in range(5):
@@ -30,7 +33,7 @@ def marcar_numero(cartela, numero):
                 return True
     return False
 
-#função para ver quem ganhou 
+"""função para ver quem ganhou""" 
 def jogador_venceu(cartela):
     #verifica as linhas horizontais e verticais
     for i in range(5):
@@ -43,7 +46,7 @@ def jogador_venceu(cartela):
 
     return False
 
-#função para atualizar o arquivo de ranking
+"""função para atualizar o arquivo de ranking"""
 def atualizar_ranking(vencedor, arquivo_ranking):
     try:
         with open(arquivo_ranking, 'r') as arquivo:
@@ -80,7 +83,7 @@ def atualizar_ranking(vencedor, arquivo_ranking):
     with open(arquivo_ranking, 'w') as arquivo:
         arquivo.writelines(ranking)
         
-#função para exibir o ranking
+"""função para exibir o ranking"""
 def exibir_ranking(arquivo_ranking):
     try:
         with open(arquivo_ranking, 'r') as arquivo:
@@ -100,7 +103,7 @@ def exibir_ranking(arquivo_ranking):
         print("O arquivo de ranking ainda não existe.")
 
 
-#função principal do jogo
+"""função principal do jogo"""
 def jogar_bingo():
     arquivo_ranking = "ranking.txt"
 
