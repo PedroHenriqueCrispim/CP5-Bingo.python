@@ -62,7 +62,8 @@ def atualizar_ranking(vencedor, arquivo_ranking):
             if len(elementos) == 2:
                 nome, vitorias = elementos
                 if nome == vencedor:
-                    ranking[i] = f"{nome}-{int(vitorias) + 1}\n"
+                    vitorias = int(vitorias) + 1
+                    ranking[i] = f"{nome},{vitorias}\n"
                     jogador_encontrado = True
                     break
 
