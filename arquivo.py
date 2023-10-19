@@ -54,7 +54,7 @@ def atualizar_ranking(vencedor, arquivo_ranking):
     except FileNotFoundError:
         ranking = []
 
-    # Encontra o jogador no ranking atual
+    #encontra o jogador no ranking atual
     jogador_encontrado = False
     for i, linha in enumerate(ranking):
         if ',' in linha:
@@ -67,20 +67,20 @@ def atualizar_ranking(vencedor, arquivo_ranking):
                     jogador_encontrado = True
                     break
 
-    # Adiciona o jogador se ele não estiver no ranking
+    #adiciona o jogador se ele não estiver no ranking
     if not jogador_encontrado:
         ranking.append(f"{vencedor},1\n")
 
     if ranking:
-        # Ordena os jogadores de quem tem mais vitórias para quem tem menos
+        #ordena os jogadores de quem tem mais vitórias para quem tem menos
         ranking.sort(
             key=lambda x: int(x.strip().split(',')[1]) if len(x.strip().split(',')) == 2 else 0,
             reverse=True)
     else:
-        # Se o ranking estiver vazio, não há necessidade de ordenação
+        #se o ranking estiver vazio, não precisa de ordenação
         ranking = [f"{vencedor},1\n"]
 
-    # Escreve o ranking atualizado de volta no arquivo
+    #escreve o ranking atualizado de volta no arquivo
     with open(arquivo_ranking, 'w') as arquivo:
         arquivo.writelines(ranking)
         
