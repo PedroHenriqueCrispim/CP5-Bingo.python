@@ -130,9 +130,9 @@ def jogar_bingo():
     numeros_sorteados = []
     
     while True:
-        input("Pressione Enter para sortear um número...")
         numero_sorteado = random.randint(1, 75)
         if numero_sorteado not in numeros_sorteados:
+            input("Pressione Enter para sortear um número...")
             print(f"Número sorteado: {numero_sorteado}")
             numeros_sorteados.append(numero_sorteado)
             
